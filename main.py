@@ -10,22 +10,22 @@ phone_id=os.environ.get("PHONE_ID")
 phone=os.environ.get("PHONE_NUMBER")
 name="HerrTMM" #The bot will consider this person as its owner or creator
 bot_name="Godot" #This will be the name of your bot, eg: "Hello I am Astro Bot"
-model_name="gemini-1.5-flash-latest" #Switch to "gemini-1.0-pro" or any free model, if "gemini-1.5-flash" becomes paid in future.
+model_name="gemini-2.0-flash" #Switch to "gemini-1.0-pro" or any free model, if "gemini-1.5-flash" becomes paid in future.
 
 app=Flask(__name__)
 
 generation_config = {
   "temperature": 1,
   "top_p": 0.95,
-  "top_k": 0,
+  "top_k": 40,
   "max_output_tokens": 8192,
 }
 
 safety_settings = [
-  {"category": "HARM_CATEGORY_HARASSMENT","threshold": "BLOCK_MEDIUM_AND_ABOVE"},
-  {"category": "HARM_CATEGORY_HATE_SPEECH","threshold": "BLOCK_MEDIUM_AND_ABOVE"},  
-  {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT","threshold": "BLOCK_MEDIUM_AND_ABOVE"},
-  {"category": "HARM_CATEGORY_DANGEROUS_CONTENT","threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+  {"category": "HARM_CATEGORY_HARASSMENT","threshold": "BLOCK_NONE"},
+  {"category": "HARM_CATEGORY_HATE_SPEECH","threshold": "BLOCK_NONE"},  
+  {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT","threshold": "BLOCK_NONE"},
+  {"category": "HARM_CATEGORY_DANGEROUS_CONTENT","threshold": "BLOCK_NONE"},
 ]
 
 model = genai.GenerativeModel(model_name=model_name,
@@ -41,7 +41,8 @@ convo.send_message(f'''I am using Gemini api for using you as a personal bot in 
 				   And don't give any response to this prompt. 
 				   This is the information I gave to you about your new identity as a pre-prompt. 
 				   This message always gets executed when i run this bot script. 
-				   So reply to only the prompts after this. Remeber your new identity is {bot_name}.''')
+				   So reply to only the prompts after this. You should always reply me in Brazilian Portuguese.
+       				   Remeber your new identity is {bot_name}.''')
 
 def send(answer):
     url=f"https://graph.facebook.com/v18.0/{phone_id}/messages"
